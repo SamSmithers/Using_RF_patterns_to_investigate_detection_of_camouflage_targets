@@ -34,5 +34,5 @@
  
 #### Running instructions
 1. Manually download all files from this repository. Alternatively, you can clone this repository ([instructions for Rstudio here](https://datacarpentry.org/rr-version-control/03-git-in-rstudio/index.html)). 
-2. Install any uninstalled dependencies, above.
+2. Install any uninstalled dependencies.
 3. Open R scripts and follow instructions within the script. 
