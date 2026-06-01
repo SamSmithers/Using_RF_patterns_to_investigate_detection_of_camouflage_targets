@@ -131,9 +131,9 @@ AreaMatched_missesPerS_Box
 
 
 ##===============================================================
-##    Boxplot: Size matched targets (Experiments 2A and 2B)     =
+##    Boxplot: Width matched targets (Experiments 2A and 2B)    =
 ##===============================================================
-boxup("Boxplot: Size matched targets (Experiments 2A and 2B)", bandChar = "=")
+boxup("Boxplot: Width matched targets (Experiments 2A and 2B)", bandChar = "=")
 
 Exp2A_data <-read.csv("Exp2A_accumulated mouse click data.csv", header=T)
 Exp2A_data["Experiment"] <- "Exp 2A"
@@ -143,14 +143,14 @@ Exp2B_data <-read.csv("Exp2B_accumulated mouse click data.csv", header=T)
 Exp2B_data["Experiment"] <- "Exp 2B"
 Exp2B_data <- subset(Exp2B_data, TargetID=="T1")
 processed_Exp2B_data <- Cal_miss_per_sec(Exp2B_data)
-SizeMatched_data <- rbind (processed_Exp2A_data, processed_Exp2B_data)
+WidthMatched_data <- rbind (processed_Exp2A_data, processed_Exp2B_data)
 
-SizeMatched_missesPerS_Box <- ggplot(SizeMatched_data, aes(x=factor(Radial_frequency), y= misses_per_second, fill = factor(Amplitude))) + 
+WidthMatched_missesPerS_Box <- ggplot(WidthMatched_data, aes(x=factor(Radial_frequency), y= misses_per_second, fill = factor(Amplitude))) + 
   geom_boxplot(lwd=0.75, fatten =2, outlier.shape=NA) + xlab("Radial frequency") + Graph.theme + scale_fill_manual(values=CustomPalette) +
   geom_point(position=position_jitterdodge(jitter.width = 0.25), shape = 21, size=2, alpha=0.6) +
   scale_y_continuous(name="Number of misses averaged over trial duration in seconds") + #, breaks= seq(0,5,1), limits=c(0,5), expand=c(0,0)) + 
   guides(fill=guide_legend(title="Amplitude")) + ggtitle("Exp 2 and Exp 4") 
-SizeMatched_missesPerS_Box
+WidthMatched_missesPerS_Box
 
 ##---------------------------------------------------------------
 ##                          Save graphs                         -
@@ -158,7 +158,7 @@ SizeMatched_missesPerS_Box
 boxup("Save graphs", bandChar = "-")
 today <- Sys.Date()
 today <- format(today, "%Y%m%d")
-All_box <-grid.arrange(AreaMatched_missesPerS_Box, SizeMatched_missesPerS_Box, ncol = 1)
+All_box <-grid.arrange(AreaMatched_missesPerS_Box, WidthMatched_missesPerS_Box, ncol = 1)
 ggsave(file =paste(today, "Misses per second against RF & Amp boxplots.svg"), device = 'svg', plot = All_box, width = 20, height = 16)
 
 
@@ -222,10 +222,10 @@ anova(zig_model,zig_model_2) # Chi(2) = 34.412, p= 3.369e-08 ***
 
 
 ##===============================================================
-##      Stats: Size matched targets (Experiments 2A and 2B)     =
+##      Stats: Width matched targets (Experiments 2A and 2B)    =
 ##===============================================================
-boxup("Stats: Size matched targets (Experiments 2A and 2B)", bandChar = "=")
-# For the sized matched experiment I go straight into using the zero-inflated mixed effect gamma model
+boxup("Stats: Width matched targets (Experiments 2A and 2B)", bandChar = "=")
+# For the width matched experiment I go straight into using the zero-inflated mixed effect gamma model
 
 Exp2A_data <-read.csv("Exp2A_accumulated mouse click data.csv", header=T)
 Exp2A_data["Experiment"] <- "Exp 2A"
@@ -235,13 +235,13 @@ Exp2B_data <-read.csv("Exp2B_accumulated mouse click data.csv", header=T)
 Exp2B_data["Experiment"] <- "Exp 2B"
 Exp2B_data <- subset(Exp2B_data, TargetID=="T1" & Radial_frequency!=0) #*1
 processed_Exp2B_data <- Cal_miss_per_sec(Exp2B_data)
-SizeMatched_data <- rbind (processed_Exp2A_data, processed_Exp2B_data)
+WidthMatched_data <- rbind (processed_Exp2A_data, processed_Exp2B_data)
 
 # Fit the full Zero-Inflated mixed effects Gamma Model using glmmTMB.
 zig_model <- glmmTMB(misses_per_second ~ Radial_frequency * Amplitude + (1|Experiment/Subject_ID),
                      zi = ~ Radial_frequency * Amplitude,
                      family = ziGamma(link = "log"),
-                     data = SizeMatched_data)
+                     data = WidthMatched_data)
 
 simulationOutput<- simulateResiduals(fittedModel = zig_model)
 plot(simulationOutput)
@@ -258,7 +258,7 @@ plot(simulationOutput)
 zig_model_2 <- glmmTMB(misses_per_second ~ Radial_frequency + Amplitude + (1|Experiment/Subject_ID),
                        zi = ~ Radial_frequency + Amplitude,
                        family = ziGamma(link = "log"),
-                       data = SizeMatched_data)
+                       data = WidthMatched_data)
 simulationOutput<- simulateResiduals(fittedModel = zig_model_2)
 plot(simulationOutput)
 anova(zig_model,zig_model_2) # Chi(2) = 68.552, p = 1.3e-15 ***
