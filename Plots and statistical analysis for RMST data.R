@@ -134,9 +134,9 @@ anova(M0, m1) # Chi(1) = 71.745, p= < 2.2e-16 ***
 rm(list=ls(all=TRUE))
 
 ##===============================================================
-##      Stats: Size matched targets (Experiments 2 and 4)       =
+##      Stats: Width matched targets (Experiments 2 and 4)       =
 ##===============================================================
-boxup("Stats: Size matched targets (Experiments 2 and 4)", bandChar = "=")
+boxup("Stats: Width matched targets (Experiments 2 and 4)", bandChar = "=")
 
 Exp2A_data <-read.csv("Exp2A_RMST_data.csv", header=T)
 Exp2A_data["Experiment"] <- "Exp 2A"
@@ -144,11 +144,11 @@ Exp2A_data<- subset(Exp2A_data, Radial_frequency!=0) # Remove circle condition *
 Exp2B_data <-read.csv("Exp2B_RMST_data.csv", header=T)
 Exp2B_data["Experiment"] <- "Exp 2B"
 Exp2B_data<- subset(Exp2B_data, Radial_frequency!=0) # Remove circle condition *1
-SizeMatched_data <- rbind (Exp2A_data,Exp2B_data)
+WidthMatched_data <- rbind (Exp2A_data,Exp2B_data)
 
 # We first use Cleveland dotplots to check for overly influential outliers. 
 # Note that we plot log(RMST) here as it is natural log transformed in the model below.
-dotchart(log(SizeMatched_data$RMST),
+dotchart(log(WidthMatched_data$RMST),
          ylab = "Order of observations", xlab = "RMST",
          main = "Cleveland dotplot")
 # Based on this plot none of the values are extreme. 
@@ -161,14 +161,14 @@ dotchart(log(SizeMatched_data$RMST),
 
 # First we fit a model with the effects of interest without the interactions. We do not include the interaction
 # because it can result in incorrectly inflated VIF values. 
-Model<-lmer(log(RMST)~ Radial_frequency+Amplitude + (1|Experiment/Subject_ID), data= SizeMatched_data, REML=TRUE) 
+Model<-lmer(log(RMST)~ Radial_frequency+Amplitude + (1|Experiment/Subject_ID), data= WidthMatched_data, REML=TRUE) 
 
 # We then check for multicollinearity of model terms. 
 check_collinearity(Model) # https://easystats.github.io/performance/reference/check_collinearity.html
 # The check finds low correlation between predictors indicating that multicollinearity is not a problem.
 
 # We can now fit the full mixed model containing fixed effects and pairwise interaction of the fixed effects 
-M0<-lmer(log(RMST)~ Radial_frequency*Amplitude + (1|Experiment/Subject_ID), data= SizeMatched_data, REML=TRUE) 
+M0<-lmer(log(RMST)~ Radial_frequency*Amplitude + (1|Experiment/Subject_ID), data= WidthMatched_data, REML=TRUE) 
 # The response variable is natural log transformed to correct for positive skew in the distribution of residuals.
 
 #Check normality and homoscedasticity
@@ -269,9 +269,9 @@ anova(m2c, m1) # Chi(1) = 48.577 , p = 3.176e-12 ***
 rm(list=ls(all=TRUE))
 
 ##===============================================================
-##      Stats: Size matched targets (Experiments 2 and 4)       =
+##      Stats: Width matched targets (Experiments 2 and 4)       =
 ##===============================================================
-boxup("Stats: Size matched targets (Experiments 2 and 4)", bandChar = "=")
+boxup("Stats: Width matched targets (Experiments 2 and 4)", bandChar = "=")
 
 Exp2A_data <-read.csv("Exp2A_RMST_data.csv", header=T)
 Exp2A_data["Experiment"] <- "Exp 2A"
@@ -279,11 +279,11 @@ Exp2A_data<- subset(Exp2A_data, Radial_frequency!=0) # Remove circle condition *
 Exp2B_data <-read.csv("Exp2B_RMST_data.csv", header=T)
 Exp2B_data["Experiment"] <- "Exp 2B"
 Exp2B_data<- subset(Exp2B_data, Radial_frequency!=0) # Remove circle condition *1
-SizeMatched_data <- rbind (Exp2A_data,Exp2B_data)
+WidthMatched_data <- rbind (Exp2A_data,Exp2B_data)
 
 # We first use Cleveland dotplots to check for overly influential outliers. 
 # Note that we plot log(RMST) here as it is natural log transformed in the model below.
-dotchart(log(SizeMatched_data$RMST),
+dotchart(log(WidthMatched_data$RMST),
          ylab = "Order of observations", xlab = "RMST",
          main = "Cleveland dotplot")
 # Based on this plot none of the values are extreme. 
@@ -296,14 +296,14 @@ dotchart(log(SizeMatched_data$RMST),
 
 # First we fit a model with the effects of interest without any interactions. We do not include the interactions
 # because they can result in incorrectly inflated VIF values. 
-Model<-lmer(log(RMST)~ Radial_frequency+Amplitude+perimeter_cm+ (1|Experiment/Subject_ID), data= SizeMatched_data, REML=TRUE) 
+Model<-lmer(log(RMST)~ Radial_frequency+Amplitude+perimeter_cm+ (1|Experiment/Subject_ID), data= WidthMatched_data, REML=TRUE) 
 
 # We then check for multicollinearity of model terms. 
 check_collinearity(Model) # https://easystats.github.io/performance/reference/check_collinearity.html
 # The check finds low correlation between predictors indicating that multicollinearity is not a problem.
 
 # We can now fit the full mixed model containing fixed effects and all possible pairwise interactions of the fixed effects 
-M0<-lmer(log(RMST)~ Radial_frequency*Amplitude*perimeter_cm+ (1|Experiment/Subject_ID), data= SizeMatched_data, REML=TRUE) 
+M0<-lmer(log(RMST)~ Radial_frequency*Amplitude*perimeter_cm+ (1|Experiment/Subject_ID), data= WidthMatched_data, REML=TRUE) 
 # The response variable is natural log transformed to correct for positive skew in the distribution of residuals.
 
 #Check normality and homoscedasticity
@@ -392,14 +392,14 @@ AreaMatched_RMST_Box <- ggplot(AreaMatched_data, aes(x=factor(Radial_frequency),
   geom_boxplot(lwd=0.75, fatten =2, outlier.shape=NA) + xlab("Radial frequency") + Graph.theme + scale_fill_manual(values=CustomPalette) +
   geom_point(position=position_jitterdodge(jitter.width = 0.25), shape = 21, size=2, alpha=0.6) +
   scale_y_continuous(breaks= seq(0,100,20), limits=c(0,105), expand=c(0,0),  name="Restricted Mean Survival Time (s)") + 
-  guides(fill=guide_legend(title="Amplitude")) + ggtitle("Exp 1 and Exp 3")
+  guides(fill=guide_legend(title="Amplitude")) + ggtitle("Exp 1A and Exp 1B")
 AreaMatched_RMST_Box
 
 
 ##====================================================================
-##  Boxplot: Size matched targets (Figure 4B- Experiments 2A and 2B)   =
+##  Boxplot: Width matched targets (Figure 4B- Experiments 2A and 2B)   =
 ##====================================================================
-boxup("Boxplot: Size matched targets (Figure 4B- Experiments 2A and 2B)", bandChar = "=")
+boxup("Boxplot: Width matched targets (Figure 4B- Experiments 2A and 2B)", bandChar = "=")
 
 Exp2A_data <-read.csv("Exp2A_RMST_data.csv", header=T)
 Exp2B_data <-read.csv("Exp2B_RMST_data.csv", header=T)
@@ -407,14 +407,14 @@ N2 <- nrow(unique(Exp2A_data["Subject_ID"]))
 print(N2) # N=26
 N4 <- nrow(unique(Exp2B_data["Subject_ID"]))
 print(N4) # N=20
-SizeMatched_data <- rbind (Exp2A_data,Exp2B_data)
+WidthMatched_data <- rbind (Exp2A_data,Exp2B_data)
 
-SizeMatched_RMST_Box <- ggplot(SizeMatched_data, aes(x=factor(Radial_frequency), y= RMST, fill = factor(Amplitude))) + 
+WidthMatched_RMST_Box <- ggplot(WidthMatched_data, aes(x=factor(Radial_frequency), y= RMST, fill = factor(Amplitude))) + 
   geom_boxplot(lwd=0.75, fatten =2, outlier.shape=NA) + xlab("Radial frequency") + Graph.theme + scale_fill_manual(values=CustomPalette) +
   geom_point(position=position_jitterdodge(jitter.width = 0.25), shape = 21, size=2, alpha=0.6) +
   scale_y_continuous(breaks= seq(0,100,20), limits=c(0,105), expand=c(0,0),  name="Restricted Mean Survival Time (s)") + 
-  guides(fill=guide_legend(title="Amplitude")) + ggtitle("Exp 2 and Exp 4")
-SizeMatched_RMST_Box
+  guides(fill=guide_legend(title="Amplitude")) + ggtitle("Exp 2A and Exp 2B")
+WidthMatched_RMST_Box
 
 ##---------------------------------------------------------------
 ##                          Save graphs                         -
@@ -422,7 +422,7 @@ SizeMatched_RMST_Box
 boxup("Save graphs", bandChar = "-")
 today <- Sys.Date()
 today <- format(today, "%Y%m%d")
-All_box <-grid.arrange(AreaMatched_RMST_Box, SizeMatched_RMST_Box, ncol = 1)
+All_box <-grid.arrange(AreaMatched_RMST_Box, WidthMatched_RMST_Box, ncol = 1)
 ggsave(file =paste(today, "Copy of Figure 4 from Smithers et al.svg"), device = 'svg', plot = All_box, width = 20, height = 15)
 
 
@@ -455,19 +455,19 @@ AreaMatched_RMST_vs_perimeter_scatter <- ggplot(AreaMatched_data, aes(x=perimete
   annotation_logticks(outside = TRUE, size=0.8) + coord_cartesian(clip = "off") +
   guides(fill=guide_legend(override.aes=list(shape=21), title="Radial frequency"), 
          shape=guide_legend(override.aes=list(shape=c(18,16,17,15)), title="Amplitude"), 
-         color = 'none') + ggtitle("Area matched: Exp 1 & 3") 
+         color = 'none') + ggtitle("Area matched: Exp 1A & 1B") 
 AreaMatched_RMST_vs_perimeter_scatter
 
 ##=========================================================================
-##  Scatter plot: Size matched targets (Figure 5B- Experiments 2A and 2B)   =
+##  Scatter plot: Width matched targets (Figure 5B- Experiments 2A and 2B)   =
 ##=========================================================================
-boxup("Scatter plot: Size matched targets (Figure 5B- Experiments 2A and 2B)", bandChar = "=") 
+boxup("Scatter plot: Width matched targets (Figure 5B- Experiments 2A and 2B)", bandChar = "=") 
 
 Exp2A_data <-read.csv("Exp2A_RMST_data.csv", header=T)
 Exp2B_data <-read.csv("Exp2B_RMST_data.csv", header=T)
-SizeMatched_data <- rbind (Exp2A_data,Exp2B_data)
+WidthMatched_data <- rbind (Exp2A_data,Exp2B_data)
 
-SizeMatched_RMST_vs_perimeter_scatter <- ggplot(SizeMatched_data, aes(x=perimeter_cm, y= RMST)) +
+WidthMatched_RMST_vs_perimeter_scatter <- ggplot(WidthMatched_data, aes(x=perimeter_cm, y= RMST)) +
   xlab("Perimeter (cm)") +  ylab("Restricted Mean Survival Time (s)") + Graph.theme +
   geom_point(size=2, alpha=0.6, aes(fill = factor(Radial_frequency), shape = factor(Amplitude))) +
   stat_summary(geom = "point", fun = "mean", size = 4, aes(fill = factor(Radial_frequency), shape = factor(Amplitude))) + 
@@ -479,8 +479,8 @@ SizeMatched_RMST_vs_perimeter_scatter <- ggplot(SizeMatched_data, aes(x=perimete
   annotation_logticks(outside = TRUE, size=0.8) + coord_cartesian(clip = "off") +
   guides(fill=guide_legend(override.aes=list(shape=21), title="Radial frequency"), 
          shape=guide_legend(override.aes=list(shape=c(18,16,17,15)), title="Amplitude"), 
-         color = 'none') + ggtitle("Angular size matched: Exp 2 & 4") 
-SizeMatched_RMST_vs_perimeter_scatter
+         color = 'none') + ggtitle("Width matched: Exp 2A & 2B") 
+WidthMatched_RMST_vs_perimeter_scatter
 
 ##---------------------------------------------------------------
 ##                          Save graphs                         -
@@ -488,5 +488,5 @@ SizeMatched_RMST_vs_perimeter_scatter
 boxup("Save graphs", bandChar = "-")
 today <- Sys.Date()
 today <- format(today, "%Y%m%d")
-All_scatter <-grid.arrange(AreaMatched_RMST_vs_perimeter_scatter,SizeMatched_RMST_vs_perimeter_scatter, ncol = 1)
+All_scatter <-grid.arrange(AreaMatched_RMST_vs_perimeter_scatter,WidthMatched_RMST_vs_perimeter_scatter, ncol = 1)
 ggsave(file =paste(today, "Copy of Figure 5 from Smithers et al.svg"), device = 'svg', plot = All_scatter, width = 20, height = 15)
