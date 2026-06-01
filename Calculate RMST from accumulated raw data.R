@@ -135,7 +135,7 @@ CustomPalette = c("#DC267F", "#FE6100", "#FFB000") # Colour blind friendly. Matc
 if (ExpName == "Exp1A" || ExpName == "Exp2A" ){ #Area matched experiments 
   data$Condition_name <- factor(data$Condition_name, levels =c(
     'RF0A0','RF3A2','RF3A5','RF3A10','RF4A2','RF4A5','RF4A10','RF5A2','RF5A5','RF5A10','RF8A2','RF8A5','RF8A10')) 
-} else if (ExpName == "Exp1B" || ExpName == "Exp2B" ){ #Size matched experiments
+} else if (ExpName == "Exp1B" || ExpName == "Exp2B" ){ #width matched experiments
   data$Condition_name <- factor(data$Condition_name, levels =c(
     'RF0A0','RF8A2','RF8A5','RF8A10','RF10A2','RF10A5','RF10A10','RF14A2','RF14A5','RF14A10','RF20A2','RF20A5','RF20A10')) 
 }
