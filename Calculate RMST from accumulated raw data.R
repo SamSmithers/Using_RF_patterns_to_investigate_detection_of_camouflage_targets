@@ -1,5 +1,5 @@
 # This is a copy of the R script used to conduct the survival analysis and output the Restricted Mean Survival
-# Time that is reported in Smithers et al. (under review). For an explanation of the statistical analysis
+# Time that is reported in Smithers et al. (2026). For an explanation of the statistical analysis
 # conducted, please refer to the 'Analysis of Search Time Data' section of the methods in the main manuscript.
 # The script plots a KM survival curve for each subject and then outputs the Restricted Mean Survival Time (RMST)
 # for each stimulus condition by measuring the area under the curve.
