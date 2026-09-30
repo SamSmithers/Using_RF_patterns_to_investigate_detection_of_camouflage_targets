@@ -1,7 +1,7 @@
 
 # This is a copy of the R script used to generate the figures for, and perform the statistical analysis on, 
 # the Restricted Mean Survival Time (RMST) data from the experiments reported in Smithers et al. 
-# (under review). For an explanation of the statistical analysis conducted, please refer to the 'Analysis 
+# (2026). For an explanation of the statistical analysis conducted, please refer to the 'Analysis 
 # of Search Time Data' section of the methods in the main manuscript.
 
 # Script written by Dr Samuel P. Smithers, Northeastern University, 2023-2025
