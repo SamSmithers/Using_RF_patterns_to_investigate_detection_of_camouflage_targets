@@ -1,4 +1,4 @@
-# This is a copy of the R script used to generate supplementary figures S6-S9 from Smithers et al. (under review).
+# This is a copy of the R script used to generate supplementary figures S6-S9 from Smithers et al. (2026).
 
 # Script written by Dr Samuel P. Smithers, Northeastern University, 2023-2025
 # Last edited July 2025
